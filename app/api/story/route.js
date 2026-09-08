@@ -6,11 +6,6 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const thumb = searchParams.get('thumb');
 
-  // Recupera l'URL base del dominio (es. https://ig-story-generator-nu.vercel.app)
-  const host = req.headers.get('host');
-  const protocol = host.includes('localhost') ? 'http' : 'https';
-  const bgUrl = `${protocol}://${host}/Back_ig.jpg`;
-
   return new ImageResponse(
     (
       <div
@@ -21,24 +16,28 @@ export async function GET(req) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#050d05',
+          backgroundColor: '#021305',
+          backgroundImage: `
+            linear-gradient(to right, rgba(0, 255, 70, 0.4) 2px, transparent 2px),
+            linear-gradient(to bottom, rgba(0, 255, 70, 0.4) 2px, transparent 2px)
+          `,
+          backgroundSize: '60px 60px',
           position: 'relative',
         }}
       >
-        {/* Sfondo Grid Verde */}
-        <img
-          src={bgUrl}
+        {/* Glow verde radiale al centro per effetto profondità */}
+        <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '1080px',
             height: '1920px',
-            objectFit: 'cover',
+            backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 255, 80, 0.15) 0%, rgba(0, 10, 2, 0.85) 75%)',
           }}
         />
 
-        {/* Contenuto sopra lo sfondo */}
+        {/* Contenitore principale */}
         <div
           style={{
             display: 'flex',
@@ -51,32 +50,32 @@ export async function GET(req) {
             zIndex: 10,
           }}
         >
-          {/* Testo NUOVO VIDEO con Stroke e Ombra */}
+          {/* Testo NUOVO VIDEO */}
           <div
             style={{
-              fontSize: 82,
+              fontSize: 84,
               fontWeight: 900,
               color: '#ffffff',
-              marginBottom: 70,
+              marginBottom: 75,
               letterSpacing: 4,
               textTransform: 'uppercase',
               WebkitTextStroke: '4px #000000',
-              textShadow: '0 10px 25px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 255, 100, 0.3)',
+              textShadow: '0 12px 28px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 255, 100, 0.4)',
             }}
           >
             NUOVO VIDEO
           </div>
 
-          {/* Miniatura Video con Drop Shadow */}
+          {/* Miniatura Video con Ombra */}
           {thumb ? (
             <img
               src={thumb}
               style={{
                 width: '1000px',
                 height: '562px',
-                borderRadius: 24,
-                border: '3px solid rgba(255, 255, 255, 0.25)',
-                boxShadow: '0 30px 70px rgba(0, 0, 0, 0.95), 0 10px 30px rgba(0, 0, 0, 0.8)',
+                borderRadius: 26,
+                border: '3px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 30px 80px rgba(0, 0, 0, 0.98), 0 10px 30px rgba(0, 0, 0, 0.8)',
               }}
             />
           ) : (
