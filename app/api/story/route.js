@@ -5,8 +5,8 @@ export const runtime = 'edge';
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   let thumb = searchParams.get('thumb') || '';
+  const platform = searchParams.get('platform') || 'ig';
 
-  // Forza sempre la versione maxresdefault nativa 16:9 senza bande nere
   if (thumb.includes('hqdefault.jpg')) {
     thumb = thumb.replace('hqdefault.jpg', 'maxresdefault.jpg');
   } else if (thumb.includes('sddefault.jpg')) {
@@ -62,7 +62,7 @@ export async function GET(req) {
             zIndex: 10,
           }}
         >
-          {/* Testo NUOVO VIDEO identico e perfetto */}
+          {/* Testo NUOVO VIDEO */}
           <div
             style={{
               fontFamily: 'Montserrat',
@@ -89,7 +89,7 @@ export async function GET(req) {
             NUOVO VIDEO
           </div>
 
-          {/* Miniatura 16:9 integra al 100% senza zoom né tagli */}
+          {/* Miniatura 16:9 integra */}
           {thumb ? (
             <div
               style={{
@@ -113,6 +113,35 @@ export async function GET(req) {
             </div>
           ) : (
             <div style={{ color: '#fff', fontSize: 32 }}>Nessuna miniatura</div>
+          )}
+
+          {/* Badge TikTok "YT: MPSuper" */}
+          {platform === 'tiktok' && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 80,
+                padding: '20px 52px',
+                backgroundColor: '#e62129',
+                borderRadius: 24,
+                boxShadow:
+                  '0 20px 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(230, 33, 41, 0.4)',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'Montserrat',
+                  fontSize: 66,
+                  fontWeight: 900,
+                  color: '#ffffff',
+                  letterSpacing: 2,
+                }}
+              >
+                YT: MPSuper
+              </span>
+            </div>
           )}
         </div>
       </div>
