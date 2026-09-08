@@ -4,9 +4,13 @@ export const runtime = 'edge';
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  const thumb = searchParams.get('thumb');
+  let thumb = searchParams.get('thumb') || '';
 
-  // Caricamento dinamico del font Montserrat ExtraBold/Black (peso 900 nativo)
+  // Prova a forzare la versione ad alta risoluzione 16:9 senza bande nere
+  if (thumb.includes('hqdefault.jpg')) {
+    thumb = thumb.replace('hqdefault.jpg', 'maxresdefault.jpg');
+  }
+
   const fontData = await fetch(
     'https://cdn.jsdelivr.net/fontsource/fonts/montserrat@latest/latin-900-normal.woff'
   ).then((res) => res.arrayBuffer());
@@ -30,7 +34,7 @@ export async function GET(req) {
           position: 'relative',
         }}
       >
-        {/* Luce diffusa centrale */}
+        {/* Glow verde di fondo */}
         <div
           style={{
             position: 'absolute',
@@ -38,11 +42,12 @@ export async function GET(req) {
             left: 0,
             width: '1080px',
             height: '1920px',
-            backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 255, 75, 0.28) 0%, rgba(0, 40, 10, 0.35) 100%)',
+            backgroundImage:
+              'radial-gradient(circle at 50% 50%, rgba(0, 255, 75, 0.28) 0%, rgba(0, 40, 10, 0.35) 100%)',
           }}
         />
 
-        {/* Contenuto */}
+        {/* Contenitore centrale */}
         <div
           style={{
             display: 'flex',
@@ -55,7 +60,7 @@ export async function GET(req) {
             zIndex: 10,
           }}
         >
-          {/* Testo in Black/Heavy con bordo nero pieno e drop shadow */}
+          {/* Testo NUOVO VIDEO (invariato) */}
           <div
             style={{
               fontFamily: 'Montserrat',
@@ -82,18 +87,31 @@ export async function GET(req) {
             NUOVO VIDEO
           </div>
 
-          {/* Miniatura con Drop Shadow marcata */}
+          {/* Frame miniatura: ritaglia automaticamente le bande nere 4:3 */}
           {thumb ? (
-            <img
-              src={thumb}
+            <div
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 width: '1000px',
                 height: '562px',
                 borderRadius: 24,
+                overflow: 'hidden',
                 border: '3px solid rgba(255, 255, 255, 0.35)',
-                boxShadow: '0 30px 80px rgba(0, 0, 0, 0.98), 0 12px 30px rgba(0, 0, 0, 0.85)',
+                boxShadow:
+                  '0 30px 80px rgba(0, 0, 0, 0.98), 0 12px 30px rgba(0, 0, 0, 0.85)',
               }}
-            />
+            >
+              <img
+                src={thumb}
+                style={{
+                  width: '1000px',
+                  height: '750px', // Altezza forzata per tagliare via le barre 4:3 di YouTube
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
           ) : (
             <div style={{ color: '#fff', fontSize: 32 }}>Nessuna miniatura</div>
           )}
