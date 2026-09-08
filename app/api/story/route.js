@@ -16,16 +16,17 @@ export async function GET(req) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#021305',
+          backgroundColor: '#012004',
+          /* Griglia verde brillante visibile */
           backgroundImage: `
-            linear-gradient(to right, rgba(0, 255, 70, 0.4) 2px, transparent 2px),
-            linear-gradient(to bottom, rgba(0, 255, 70, 0.4) 2px, transparent 2px)
+            linear-gradient(to right, rgba(0, 255, 65, 0.65) 3px, transparent 3px),
+            linear-gradient(to bottom, rgba(0, 255, 65, 0.65) 3px, transparent 3px)
           `,
-          backgroundSize: '60px 60px',
+          backgroundSize: '54px 54px',
           position: 'relative',
         }}
       >
-        {/* Glow verde radiale al centro per effetto profondità */}
+        {/* Diffusione luce verde chiara per risaltare la griglia */}
         <div
           style={{
             position: 'absolute',
@@ -33,11 +34,11 @@ export async function GET(req) {
             left: 0,
             width: '1080px',
             height: '1920px',
-            backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 255, 80, 0.15) 0%, rgba(0, 10, 2, 0.85) 75%)',
+            backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 255, 75, 0.28) 0%, rgba(0, 40, 10, 0.35) 100%)',
           }}
         />
 
-        {/* Contenitore principale */}
+        {/* Contenuto */}
         <div
           style={{
             display: 'flex',
@@ -50,32 +51,43 @@ export async function GET(req) {
             zIndex: 10,
           }}
         >
-          {/* Testo NUOVO VIDEO */}
+          {/* Testo in grassetto con Stroke nera solida + Drop Shadow profonda */}
           <div
             style={{
-              fontSize: 84,
+              fontSize: 90,
               fontWeight: 900,
               color: '#ffffff',
               marginBottom: 75,
               letterSpacing: 4,
               textTransform: 'uppercase',
-              WebkitTextStroke: '4px #000000',
-              textShadow: '0 12px 28px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 255, 100, 0.4)',
+              /* Simulazione perfetta di stroke nera 4px + drop shadow staccata */
+              textShadow: `
+                -4px -4px 0 #000000,
+                 4px -4px 0 #000000,
+                -4px  4px 0 #000000,
+                 4px  4px 0 #000000,
+                 0px  4px 0 #000000,
+                 0px -4px 0 #000000,
+                -4px  0px 0 #000000,
+                 4px  0px 0 #000000,
+                 0 15px 25px rgba(0, 0, 0, 0.95),
+                 0 25px 40px rgba(0, 0, 0, 0.85)
+              `,
             }}
           >
             NUOVO VIDEO
           </div>
 
-          {/* Miniatura Video con Ombra */}
+          {/* Miniatura con Drop Shadow marcata */}
           {thumb ? (
             <img
               src={thumb}
               style={{
                 width: '1000px',
                 height: '562px',
-                borderRadius: 26,
-                border: '3px solid rgba(255, 255, 255, 0.2)',
-                boxShadow: '0 30px 80px rgba(0, 0, 0, 0.98), 0 10px 30px rgba(0, 0, 0, 0.8)',
+                borderRadius: 24,
+                border: '3px solid rgba(255, 255, 255, 0.35)',
+                boxShadow: '0 30px 80px rgba(0, 0, 0, 0.98), 0 12px 30px rgba(0, 0, 0, 0.85)',
               }}
             />
           ) : (
