@@ -1,9 +1,8 @@
 import { ImageResponse } from '@vercel/og';
-import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
-export async function GET(req: NextRequest) {
+export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const thumb = searchParams.get('thumb');
 
@@ -21,7 +20,6 @@ export async function GET(req: NextRequest) {
           padding: '60px 40px',
         }}
       >
-        {/* Scritta in alto */}
         <div
           style={{
             fontSize: 72,
@@ -35,7 +33,6 @@ export async function GET(req: NextRequest) {
           NUOVO VIDEO
         </div>
 
-        {/* Copertina YouTube al centro */}
         {thumb ? (
           <img
             src={thumb}
@@ -47,7 +44,7 @@ export async function GET(req: NextRequest) {
             }}
           />
         ) : (
-          <div style={{ color: '#fff', fontSize: 32 }}>Nessuna miniatura fornita</div>
+          <div style={{ color: '#fff', fontSize: 32 }}>Nessuna miniatura</div>
         )}
       </div>
     ),
