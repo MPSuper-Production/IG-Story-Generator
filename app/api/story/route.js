@@ -6,9 +6,11 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   let thumb = searchParams.get('thumb') || '';
 
-  // Prova a forzare la versione ad alta risoluzione 16:9 senza bande nere
+  // Forza sempre la versione maxresdefault nativa 16:9 senza bande nere
   if (thumb.includes('hqdefault.jpg')) {
     thumb = thumb.replace('hqdefault.jpg', 'maxresdefault.jpg');
+  } else if (thumb.includes('sddefault.jpg')) {
+    thumb = thumb.replace('sddefault.jpg', 'maxresdefault.jpg');
   }
 
   const fontData = await fetch(
@@ -60,7 +62,7 @@ export async function GET(req) {
             zIndex: 10,
           }}
         >
-          {/* Testo NUOVO VIDEO (invariato) */}
+          {/* Testo NUOVO VIDEO identico e perfetto */}
           <div
             style={{
               fontFamily: 'Montserrat',
@@ -87,13 +89,11 @@ export async function GET(req) {
             NUOVO VIDEO
           </div>
 
-          {/* Frame miniatura: ritaglia automaticamente le bande nere 4:3 */}
+          {/* Miniatura 16:9 integra al 100% senza zoom né tagli */}
           {thumb ? (
             <div
               style={{
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 width: '1000px',
                 height: '562px',
                 borderRadius: 24,
@@ -107,8 +107,7 @@ export async function GET(req) {
                 src={thumb}
                 style={{
                   width: '1000px',
-                  height: '750px', // Altezza forzata per tagliare via le barre 4:3 di YouTube
-                  objectFit: 'cover',
+                  height: '562px',
                 }}
               />
             </div>
