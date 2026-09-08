@@ -6,6 +6,11 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const thumb = searchParams.get('thumb');
 
+  // Caricamento dinamico del font Montserrat ExtraBold/Black (peso 900 nativo)
+  const fontData = await fetch(
+    'https://cdn.jsdelivr.net/fontsource/fonts/montserrat@latest/latin-900-normal.woff'
+  ).then((res) => res.arrayBuffer());
+
   return new ImageResponse(
     (
       <div
@@ -17,7 +22,6 @@ export async function GET(req) {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#012004',
-          /* Griglia verde brillante visibile */
           backgroundImage: `
             linear-gradient(to right, rgba(0, 255, 65, 0.65) 3px, transparent 3px),
             linear-gradient(to bottom, rgba(0, 255, 65, 0.65) 3px, transparent 3px)
@@ -26,7 +30,7 @@ export async function GET(req) {
           position: 'relative',
         }}
       >
-        {/* Diffusione luce verde chiara per risaltare la griglia */}
+        {/* Luce diffusa centrale */}
         <div
           style={{
             position: 'absolute',
@@ -51,27 +55,27 @@ export async function GET(req) {
             zIndex: 10,
           }}
         >
-          {/* Testo in grassetto con Stroke nera solida + Drop Shadow profonda */}
+          {/* Testo in Black/Heavy con bordo nero pieno e drop shadow */}
           <div
             style={{
-              fontSize: 90,
+              fontFamily: 'Montserrat',
+              fontSize: 88,
               fontWeight: 900,
               color: '#ffffff',
               marginBottom: 75,
-              letterSpacing: 4,
+              letterSpacing: 2,
               textTransform: 'uppercase',
-              /* Simulazione perfetta di stroke nera 4px + drop shadow staccata */
               textShadow: `
-                -4px -4px 0 #000000,
-                 4px -4px 0 #000000,
-                -4px  4px 0 #000000,
-                 4px  4px 0 #000000,
-                 0px  4px 0 #000000,
-                 0px -4px 0 #000000,
-                -4px  0px 0 #000000,
-                 4px  0px 0 #000000,
+                -5px -5px 0 #000000,
+                 5px -5px 0 #000000,
+                -5px  5px 0 #000000,
+                 5px  5px 0 #000000,
+                 0px  6px 0 #000000,
+                 0px -6px 0 #000000,
+                -6px  0px 0 #000000,
+                 6px  0px 0 #000000,
                  0 15px 25px rgba(0, 0, 0, 0.95),
-                 0 25px 40px rgba(0, 0, 0, 0.85)
+                 0 25px 45px rgba(0, 0, 0, 0.85)
               `,
             }}
           >
@@ -99,6 +103,14 @@ export async function GET(req) {
     {
       width: 1080,
       height: 1920,
+      fonts: [
+        {
+          name: 'Montserrat',
+          data: fontData,
+          style: 'normal',
+          weight: 900,
+        },
+      ],
     }
   );
 }
